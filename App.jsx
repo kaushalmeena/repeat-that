@@ -5,10 +5,10 @@ import Gameplay from "./src/screens/Gameplay";
 import MainMenu from "./src/screens/MainMenu";
 
 export default function App() {
-  const [screenName, setScreenName] = useState(SCREENS.Gameplay);
+  const [screenName, setScreenName] = useState(SCREENS.MainMenu);
   const [screenData, setScreenData] = useState({});
 
-  function navigateTo(name, data) {
+  function navigateTo(name, data = {}) {
     setScreenName(name);
     setScreenData(data);
   }

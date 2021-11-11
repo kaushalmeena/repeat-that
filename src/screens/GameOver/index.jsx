@@ -1,33 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { COLORS } from "../../constants/colors";
 import { SCREENS } from "../../constants/screens";
+import { fetchBestScore, storeBestScore } from "../../utils/score";
 import HomeIcon from "./HomeIcon";
 import ReplayIcon from "./ReplayIcon";
 
-export default function GameOver({ navigateTo }) {
-  function handleHomeNavigate() {
+export default function GameOver({ screenData, navigateTo }) {
+  const [bestScore, setBestScore] = useState(0);
+
+  useEffect(function () {
+    fetchBestScore().then(function (score) {
+      if (score < screenData.score) {
+        setBestScore(screenData.score);
+        storeBestScore(screenData.score);
+      } else {
+        setBestScore(score);
+      }
+    });
+  }, []);
+
+  function handleMainMenuNavigation() {
     navigateTo(SCREENS.MainMenu);
   }
-  function handleGameplayNavigate() {
+
+  function handleGameplayNavigation() {
     navigateTo(SCREENS.Gameplay);
   }
+
   return (
     <View style={styles.container}>
       <View style={styles.mainContainer}>
         <Text style={styles.titleText}>GAME OVER</Text>
-        <Text style={styles.scoreText}>SCORE: 1</Text>
-        <Text style={styles.bestScoreText}>BEST: 1</Text>
+        <Text style={styles.scoreText}>SCORE: {screenData.score}</Text>
+        <Text style={styles.bestScoreText}>BEST: {bestScore}</Text>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.roundedButton}
-            onPress={handleHomeNavigate}
+            onPress={handleMainMenuNavigation}
           >
             <HomeIcon fill={COLORS.background} height="60" width="60" />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.roundedButton}
-            onPress={handleGameplayNavigate}
+            onPress={handleGameplayNavigation}
           >
             <ReplayIcon fill={COLORS.background} height="60" width="60" />
           </TouchableOpacity>
