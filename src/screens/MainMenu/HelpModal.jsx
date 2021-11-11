@@ -1,5 +1,6 @@
 import React from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { COLORS } from "../../constants/colors";
 
 export default function HelpModal({ visible, onClose }) {
   return (
@@ -9,7 +10,7 @@ export default function HelpModal({ visible, onClose }) {
       visible={visible}
       onRequestClose={onClose}
     >
-      <View style={styles.centeredView}>
+      <View style={styles.container}>
         <View style={styles.modalContainer}>
           <TouchableOpacity style={styles.closeButton} onPress={onClose}>
             <Text style={styles.modalText}>X</Text>
@@ -25,7 +26,7 @@ export default function HelpModal({ visible, onClose }) {
 }
 
 const styles = StyleSheet.create({
-  centeredView: {
+  container: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.1)",
     justifyContent: "center",
@@ -36,13 +37,13 @@ const styles = StyleSheet.create({
     maxWidth: 480,
     paddingVertical: 30,
     paddingHorizontal: 20,
-    backgroundColor: "#FF9292",
+    backgroundColor: COLORS.secondary,
     alignItems: "center",
     justifyContent: "center",
   },
   modalText: {
     fontSize: 24,
-    color: "#FFF9B6",
+    color: COLORS.background,
   },
   closeButton: {
     position: "absolute",

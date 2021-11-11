@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { COLORS } from "../../constants/colors";
 import { getBestScore } from "../../utils/score";
 import HelpModal from "./HelpModal";
 
@@ -49,7 +50,7 @@ export default function MainMenu() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF9B6",
+    backgroundColor: COLORS.background,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -62,23 +63,23 @@ const styles = StyleSheet.create({
   titleText1: {
     fontSize: 64,
     fontWeight: "700",
-    color: "#FF9292",
+    color: COLORS.primary,
   },
   titleText2: {
     fontSize: 54,
     fontWeight: "600",
-    color: "#E8AA8C",
+    color: COLORS.secondary,
   },
   scoreContainer: {
     width: "100%",
     paddingVertical: 10,
-    backgroundColor: "#E2DCD5",
+    backgroundColor: COLORS.secondary,
   },
   scoreText: {
     textAlign: "center",
     fontSize: 34,
     fontWeight: "600",
-    color: "#5E616A",
+    color: COLORS.background,
   },
   mainContainer: {
     marginTop: 40,
@@ -86,14 +87,14 @@ const styles = StyleSheet.create({
   },
   playButton: {
     padding: 20,
-    backgroundColor: "#FF9292",
+    backgroundColor: COLORS.primary,
     borderRadius: 8,
   },
   playButtonText: {
     textAlign: "center",
     fontSize: 34,
     fontWeight: "600",
-    color: "#FFF9B6",
+    color: COLORS.background,
   },
   bottomContainer: {
     margin: 20,
@@ -101,6 +102,6 @@ const styles = StyleSheet.create({
   helpButtonText: {
     fontSize: 30,
     fontWeight: "400",
-    color: "#E8AA8C",
+    color: COLORS.secondary,
   },
 });
