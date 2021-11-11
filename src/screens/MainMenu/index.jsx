@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { COLORS } from "../../constants/colors";
-import { getBestScore } from "../../utils/score";
+import { SCREENS } from "../../constants/screens";
+import { fetchBestScore } from "../../utils/score";
 import HelpModal from "./HelpModal";
 
-export default function MainMenu() {
+export default function MainMenu({ navigateTo }) {
   const [visible, setVisible] = useState(false);
   const [bestScore, setBestScore] = useState(0);
 
   useEffect(function () {
-    getBestScore().then(function (score) {
+    fetchBestScore().then(function (score) {
       setBestScore(score);
     });
   }, []);
@@ -21,6 +22,11 @@ export default function MainMenu() {
   function handleCloseModal() {
     setVisible(false);
   }
+
+  function handleGameplayNavigation() {
+    navigateTo(SCREENS.Gameplay);
+  }
+
   return (
     <>
       <View style={styles.container}>
@@ -32,7 +38,10 @@ export default function MainMenu() {
           <Text style={styles.scoreText}>BEST: {bestScore}</Text>
         </View>
         <View style={styles.mainContainer}>
-          <TouchableOpacity style={styles.playButton}>
+          <TouchableOpacity
+            style={styles.playButton}
+            onPress={handleGameplayNavigation}
+          >
             <Text style={styles.playButtonText}>PLAY</Text>
           </TouchableOpacity>
         </View>
