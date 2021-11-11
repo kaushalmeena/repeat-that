@@ -66,7 +66,9 @@ export default function Gameplay({ navigateTo }) {
         <Text style={styles.titleText1}>{title1}</Text>
         <Text style={styles.titleText2}>{title2}</Text>
       </View>
+      <View style={styles.scoreContainer}>
       <Text style={styles.scoreText}>{score}</Text>
+      </View>
       <View style={styles.buttonContainer}>
         <View style={styles.buttonRow}>
           <RoundedButton
@@ -109,7 +111,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   topContainer: {
-    marginBottom: 20,
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
@@ -124,6 +125,9 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: COLORS.secondary,
   },
+  scoreContainer: {
+    marginVertical: 20
+  },
   scoreText: {
     textAlign: "center",
     fontSize: 48,
@@ -131,7 +135,6 @@ const styles = StyleSheet.create({
     color: COLORS.tertiary,
   },
   buttonContainer: {
-    marginTop: 20,
     flexDirection: "column",
     justifyContent: "center",
   },
