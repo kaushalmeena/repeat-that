@@ -1,12 +1,16 @@
 import React from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { COLORS } from "../../constants/colors";
 import { SCREENS } from "../../constants/screens";
 import HomeIcon from "./HomeIcon";
 import ReplayIcon from "./ReplayIcon";
 
-function GameOver({ navigateTo }) {
+export default function GameOver({ navigateTo }) {
   function handleHomeNavigate() {
     navigateTo(SCREENS.MainMenu);
+  }
+  function handleGameplayNavigate() {
+    navigateTo(SCREENS.Gameplay);
   }
   return (
     <View style={styles.container}>
@@ -16,13 +20,16 @@ function GameOver({ navigateTo }) {
         <Text style={styles.bestScoreText}>BEST: 1</Text>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
-            style={styles.roundedSquareButton}
+            style={styles.roundedButton}
             onPress={handleHomeNavigate}
           >
-            <HomeIcon fill="#F0E9D2" height="60" width="60" />
+            <HomeIcon fill={COLORS.background} height="60" width="60" />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.roundedSquareButton}>
-            <ReplayIcon fill="#F0E9D2" height="60" width="60" />
+          <TouchableOpacity
+            style={styles.roundedButton}
+            onPress={handleGameplayNavigate}
+          >
+            <ReplayIcon fill={COLORS.background} height="60" width="60" />
           </TouchableOpacity>
         </View>
       </View>
@@ -33,18 +40,18 @@ function GameOver({ navigateTo }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F0E9D2",
+    backgroundColor: COLORS.background,
     alignItems: "center",
     justifyContent: "center",
   },
   mainContainer: {
     position: "relative",
-    marginHorizontal: 20,
+    marginHorizontal: 30,
     marginBottom: 50,
     paddingHorizontal: 30,
     paddingTop: 30,
     paddingBottom: 70,
-    backgroundColor: "#678983",
+    backgroundColor: COLORS.primary,
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
@@ -54,35 +61,33 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 54,
     fontWeight: "600",
-    color: "#F0E9D2",
+    color: COLORS.background,
   },
   scoreText: {
     textAlign: "center",
     fontSize: 34,
     fontWeight: "700",
-    color: "#F0E9D2",
+    color: COLORS.background,
   },
   bestScoreText: {
     textAlign: "center",
     fontSize: 24,
     fontWeight: "500",
-    color: "#F0E9D2",
+    color: COLORS.background,
   },
   buttonContainer: {
     position: "absolute",
     bottom: -50,
     flexDirection: "row",
   },
-  roundedSquareButton: {
+  roundedButton: {
     height: 100,
     width: 100,
     marginHorizontal: 10,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#181D31",
+    backgroundColor: COLORS.secondary,
     borderRadius: 8,
   },
 });
-
-export default GameOver;
