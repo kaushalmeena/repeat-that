@@ -1,7 +1,7 @@
 {
   "name": "repeat-that",
   "version": "1.0.0",
-  "description": "A native expo game similar to Simon game.",
+  "description": "A react-native game similar to Simon game.",
   "repository": "git@github.com:kaushalmeena/repeat-that.git",
   "author": "Kaushal Meena <kaushal.meena1996@gmail.com>",
   "license": "MIT",

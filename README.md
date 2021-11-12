@@ -1,6 +1,6 @@
 # Repeat-That
 
-A native expo game similar to simon game.
+A react-native game similar to Simon game.
 
 ## Requirements
 
@@ -33,6 +33,12 @@ To run the project simply run:
 ```bash
 $ npm start
 ```
+
+## Screenshots
+
+<img alt="MainMenu" src="./screenshots/MainMenu.png" width="300" />
+<img alt="Gameplay" src="./screenshots/Gameplay.png" width="300" />
+<img alt="GameOver" src="./screenshots/GameOver.png" width="300" />
 
 ## License
 
