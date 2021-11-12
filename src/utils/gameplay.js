@@ -1,8 +1,9 @@
 export function getRandomMoves(count) {
+  const tiles = ["A", "B", "C", "D"];
   const moves = [];
   for (let i = 0; i < count; i++) {
-    const number = getRandomNumber(0, 3);
-    moves.push(number);
+    const index = getRandomNumber(0, 3);
+    moves.push(tiles[index]);
   }
   return moves;
 }
