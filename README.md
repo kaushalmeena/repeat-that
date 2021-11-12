@@ -34,12 +34,6 @@ To run the project simply run:
 $ npm start
 ```
 
-## Screenshots
-
-<img alt="MainMenu" src="./screenshots/MainMenu.png" width="300" />
-<img alt="Gameplay" src="./screenshots/Gameplay.png" width="300" />
-<img alt="GameOver" src="./screenshots/GameOver.png" width="300" />
-
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
