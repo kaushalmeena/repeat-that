@@ -9,35 +9,42 @@ export default function Gameplay({ navigateTo }) {
   const [title1, setTitle1] = useState("REPEAT");
   const [title2, setTitle2] = useState("THAT");
   const [score, setScore] = useState(0);
-  const [demoMode, setDemoMode] = useState(false);
-  const [activeButtonIdx, setActiveButtonIdx] = useState(-1);
 
-  const demoInterval = useRef(null);
-  const demoIndex = useRef(0);
+  const [watchMode, setWatchMode] = useState(false);
+  const [activeButton, setActiveButton] = useState("");
+
   const level = useRef(2);
   const playerMoves = useRef([]);
   const correctMoves = useRef([]);
 
+  function activateButton(index) {
+    setActiveButton(index);
+    setTimeout(() => {
+      setActiveButton("");
+    }, 300);
+  }
+
   function handleNextLevel() {
     setTitle1("WATCH");
     setTitle2("THIS");
-    setDemoMode(true);
+    setWatchMode(true);
 
     level.current += 1;
+    playerMoves.current = [];
     correctMoves.current = getRandomMoves(level.current);
 
-    demoInterval.current = setInterval(function () {
-      const btnIdx = correctMoves.current[demoIndex.current];
-      setActiveButtonIdx(btnIdx);
-      demoIndex.current += 1;
-      if (demoIndex.current === correctMoves.current.length) {
-        clearInterval(demoInterval.current);
-        setTitle1("REPEAT");
-        setTitle2("THAT");
-        setDemoMode(false);
-        setActiveButtonIdx(-1);
-      }
-    }, 1000);
+    for (let i = 0; i < correctMoves.current.length; i++) {
+      const btnIdx = correctMoves.current[i];
+      setTimeout(function () {
+        activateButton(btnIdx);
+      }, (i + 1) * 800);
+    }
+
+    setTimeout(function () {
+      setTitle1("REPEAT");
+      setTitle2("THAT");
+      setWatchMode(false);
+    }, (correctMoves.current.length + 1) * 800);
   }
 
   function handleGameOverNavigation() {
@@ -49,7 +56,7 @@ export default function Gameplay({ navigateTo }) {
     if (playerMoves.current.length === correctMoves.current.length) {
       if (isSequenceCorrect(playerMoves.current, correctMoves.current)) {
         handleNextLevel();
-        setScore((prevState) => prevState + 1);
+        setScore((prevScore) => prevScore + 1);
       } else {
         handleGameOverNavigation();
       }
@@ -67,35 +74,35 @@ export default function Gameplay({ navigateTo }) {
         <Text style={styles.titleText2}>{title2}</Text>
       </View>
       <View style={styles.scoreContainer}>
-      <Text style={styles.scoreText}>{score}</Text>
+        <Text style={styles.scoreText}>{score}</Text>
       </View>
       <View style={styles.buttonContainer}>
         <View style={styles.buttonRow}>
           <RoundedButton
             text="A"
-            disabled={demoMode}
-            isPressed={activeButtonIdx === 0}
-            onPress={() => handleButtonPress(0)}
+            disabled={watchMode}
+            isPressed={activeButton === "A"}
+            onPress={() => handleButtonPress("A")}
           />
           <RoundedButton
             text="B"
-            disabled={demoMode}
-            isPressed={activeButtonIdx === 1}
-            onPress={() => handleButtonPress(1)}
+            disabled={watchMode}
+            isPressed={activeButton === "B"}
+            onPress={() => handleButtonPress("B")}
           />
         </View>
         <View style={styles.buttonRow}>
           <RoundedButton
             text="C"
-            disabled={demoMode}
-            isPressed={activeButtonIdx === 2}
-            onPress={() => handleButtonPress(2)}
+            disabled={watchMode}
+            isPressed={activeButton === "C"}
+            onPress={() => handleButtonPress("C")}
           />
           <RoundedButton
             text="D"
-            disabled={demoMode}
-            isPressed={activeButtonIdx === 3}
-            onPress={() => handleButtonPress(3)}
+            disabled={watchMode}
+            isPressed={activeButton === "D"}
+            onPress={() => handleButtonPress("D")}
           />
         </View>
       </View>
@@ -126,7 +133,7 @@ const styles = StyleSheet.create({
     color: COLORS.secondary,
   },
   scoreContainer: {
-    marginVertical: 20
+    marginVertical: 20,
   },
   scoreText: {
     textAlign: "center",
