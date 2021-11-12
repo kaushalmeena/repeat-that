@@ -36,9 +36,7 @@ $ npm start
 
 ## Screenshots
 
-<img src="./screenshots/MainMenu.png" width="250"> 
-<img src="./screenshots/Gameplay.png" width="250" /> 
-<img src="./screenshots/GameOver.png" width="250"/>
+<img src="./screenshots/MainMenu.png" width="250"> <img src="./screenshots/Gameplay.png" width="250" /> <img src="./screenshots/GameOver.png" width="250"/>
 
 ## License
 
