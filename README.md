@@ -2,14 +2,18 @@
 
 A react-native game similar to Simon game.
 
-## Requirements
+## Local Development
+
+These instructions will get you a copy of the project up and running on your local machine for development purposes.
+
+### Requirements
 
 To install and run this project you need:
 
 - [NodeJS](https://nodejs.org/ "NodeJS")
 - [git](https://git-scm.com/downloads "git") (only to clone this repository)
 
-## Installation
+### Installation
 
 To set up everything in your local machine, you need to follow these steps:
 
@@ -26,7 +30,7 @@ $ cd repeat-that
 $ npm install
 ```
 
-## Usage
+### Runnning
 
 To run the project simply run:
 
