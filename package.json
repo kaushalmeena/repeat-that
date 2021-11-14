@@ -6,19 +6,16 @@
   "author": "Kaushal Meena <kaushal.meena1996@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "expo:start": "expo start --dev-client",
-    "expo:start:android": "expo start --android",
-    "expo:start:ios": "expo start --ios",
-    "expo:start:web": "expo start --web",
-    "expo:build:android": "expo build:android",
-    "expo:build:ios": "expo build:ios",
-    "expo:build:web": "expo build:web",
-    "expo:run:android": "expo run:android",
-    "expo:run:ios": "expo run:ios",
-    "eject": "expo eject",
     "start": "expo start --dev-client",
-    "android": "expo run:android",
-    "ios": "expo run:ios"
+    "start:android": "expo start --android",
+    "start:ios": "expo start --ios",
+    "start:web": "expo start --web",
+    "build:android": "expo build:android",
+    "build:ios": "expo build:ios",
+    "build:web": "expo build:web",
+    "run:android": "expo run:android",
+    "run:ios": "expo run:ios",
+    "eject": "expo eject"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "~1.15.0",
