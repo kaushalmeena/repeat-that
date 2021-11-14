@@ -5,16 +5,20 @@
   "repository": "git@github.com:kaushalmeena/repeat-that.git",
   "author": "Kaushal Meena <kaushal.meena1996@gmail.com>",
   "license": "MIT",
-  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "expo start",
-    "start:android": "expo start --android",
-    "start:ios": "expo start --ios",
-    "start:web": "expo start --web",
-    "build:android": "expo build:android",
-    "build:ios": "expo build:ios",
-    "build:web": "expo build:web",
-    "eject": "expo eject"
+    "expo:start": "expo start --dev-client",
+    "expo:start:android": "expo start --android",
+    "expo:start:ios": "expo start --ios",
+    "expo:start:web": "expo start --web",
+    "expo:build:android": "expo build:android",
+    "expo:build:ios": "expo build:ios",
+    "expo:build:web": "expo build:web",
+    "expo:run:android": "expo run:android",
+    "expo:run:ios": "expo run:ios",
+    "eject": "expo eject",
+    "start": "expo start --dev-client",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "~1.15.0",
@@ -24,7 +28,13 @@
     "react-dom": "17.0.1",
     "react-native": "0.64.3",
     "react-native-svg": "12.1.1",
-    "react-native-web": "0.17.1"
+    "react-native-web": "0.17.1",
+    "expo-splash-screen": "~0.13.5",
+    "expo-updates": "~0.10.13",
+    "react-native-gesture-handler": "~1.10.2",
+    "react-native-reanimated": "~2.2.0",
+    "react-native-safe-area-context": "3.3.2",
+    "react-native-screens": "~3.8.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
