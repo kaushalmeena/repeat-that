@@ -1,77 +1,88 @@
+import PropTypes from "prop-types";
 import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { COLORS } from "../../constants/colors";
+import {
+  BUTTON_PRESS_DELAY,
+  MOVE_DELAY,
+  MOVE_LETTERS
+} from "../../constants/gameplay";
 import { SCREENS } from "../../constants/screens";
-import { getRandomMoves, isSequenceCorrect } from "../../utils/gameplay";
+import {
+  getRandomMove,
+  getRandomMoves,
+  isSequenceCorrect
+} from "../../utils/gameplay";
 import RoundedButton from "./RoundedButton";
 
-export default function Gameplay({ navigateTo }) {
-  const [title1, setTitle1] = useState("REPEAT");
-  const [title2, setTitle2] = useState("THAT");
-  const [score, setScore] = useState(0);
+function Gameplay({ navigateTo }) {
+  const [title, setTitle] = useState("REPEAT");
+  const [subtitle, setSubtitle] = useState("THAT");
+  const [score, setScore] = useState(-1);
 
   const [watchMode, setWatchMode] = useState(false);
   const [activeButton, setActiveButton] = useState("");
 
-  const level = useRef(2);
   const playerMoves = useRef([]);
-  const correctMoves = useRef([]);
+  const correctMoves = useRef(getRandomMoves(2));
 
-  function activateButton(index) {
-    setActiveButton(index);
+  const activateButton = (letter, moveIndex) => {
+    setActiveButton(letter);
     setTimeout(() => {
       setActiveButton("");
-    }, 300);
-  }
+      showNextMove(moveIndex + 1);
+    }, BUTTON_PRESS_DELAY);
+  };
 
-  function handleNextLevel() {
-    setTitle1("WATCH");
-    setTitle2("THIS");
+  const showNextMove = (moveIndex = 0) => {
+    if (moveIndex < correctMoves.current.length) {
+      const letter = correctMoves.current[moveIndex];
+      setTimeout(() => {
+        activateButton(letter, moveIndex);
+      }, MOVE_DELAY);
+    } else {
+      setTitle("REPEAT");
+      setSubtitle("THAT");
+      setWatchMode(false);
+    }
+  };
+
+  const handleNextLevel = () => {
+    setTitle("WATCH");
+    setSubtitle("THIS");
+    setScore((prevScore) => prevScore + 1);
     setWatchMode(true);
 
-    level.current += 1;
     playerMoves.current = [];
-    correctMoves.current = getRandomMoves(level.current);
+    correctMoves.current = [...correctMoves.current, getRandomMove()];
 
-    for (let i = 0; i < correctMoves.current.length; i++) {
-      const btnIdx = correctMoves.current[i];
-      setTimeout(function () {
-        activateButton(btnIdx);
-      }, (i + 1) * 800);
-    }
+    showNextMove();
+  };
 
-    setTimeout(function () {
-      setTitle1("REPEAT");
-      setTitle2("THAT");
-      setWatchMode(false);
-    }, (correctMoves.current.length + 1) * 800);
-  }
-
-  function handleGameOverNavigation() {
+  const handleGameOverNavigation = () => {
     navigateTo(SCREENS.GameOver, { score });
-  }
+  };
 
-  function handleButtonPress(index) {
-    playerMoves.current.push(index);
+  const handleButtonPress = (letter) => {
+    playerMoves.current.push(letter);
     if (playerMoves.current.length === correctMoves.current.length) {
       if (isSequenceCorrect(playerMoves.current, correctMoves.current)) {
         handleNextLevel();
-        setScore((prevScore) => prevScore + 1);
       } else {
         handleGameOverNavigation();
       }
     }
-  }
+  };
 
-  useEffect(function () {
+  useEffect(() => {
     handleNextLevel();
   }, []);
 
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
-        <Text style={styles.titleText1}>{title1}</Text>
-        <Text style={styles.titleText2}>{title2}</Text>
+        <Text style={styles.titleText}>{title}</Text>
+        <Text style={styles.subtitleText}>{subtitle}</Text>
       </View>
       <View style={styles.scoreContainer}>
         <Text style={styles.scoreText}>{score}</Text>
@@ -79,30 +90,30 @@ export default function Gameplay({ navigateTo }) {
       <View style={styles.buttonContainer}>
         <View style={styles.buttonRow}>
           <RoundedButton
-            text="A"
+            text={MOVE_LETTERS.A}
             disabled={watchMode}
-            isPressed={activeButton === "A"}
-            onPress={() => handleButtonPress("A")}
+            isPressed={activeButton === MOVE_LETTERS.A}
+            onPress={() => handleButtonPress(MOVE_LETTERS.A)}
           />
           <RoundedButton
-            text="B"
+            text={MOVE_LETTERS.B}
             disabled={watchMode}
-            isPressed={activeButton === "B"}
-            onPress={() => handleButtonPress("B")}
+            isPressed={activeButton === MOVE_LETTERS.B}
+            onPress={() => handleButtonPress(MOVE_LETTERS.B)}
           />
         </View>
         <View style={styles.buttonRow}>
           <RoundedButton
-            text="C"
+            text={MOVE_LETTERS.C}
             disabled={watchMode}
-            isPressed={activeButton === "C"}
-            onPress={() => handleButtonPress("C")}
+            isPressed={activeButton === MOVE_LETTERS.C}
+            onPress={() => handleButtonPress(MOVE_LETTERS.C)}
           />
           <RoundedButton
-            text="D"
+            text={MOVE_LETTERS.D}
             disabled={watchMode}
-            isPressed={activeButton === "D"}
-            onPress={() => handleButtonPress("D")}
+            isPressed={activeButton === MOVE_LETTERS.D}
+            onPress={() => handleButtonPress(MOVE_LETTERS.D)}
           />
         </View>
       </View>
@@ -115,37 +126,43 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.background,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   topContainer: {
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
-  titleText1: {
+  titleText: {
     fontSize: 64,
     fontWeight: "700",
-    color: COLORS.primary,
+    color: COLORS.primary
   },
-  titleText2: {
+  subtitleText: {
     fontSize: 54,
     fontWeight: "600",
-    color: COLORS.secondary,
+    color: COLORS.secondary
   },
   scoreContainer: {
-    marginVertical: 20,
+    marginVertical: 20
   },
   scoreText: {
     textAlign: "center",
     fontSize: 48,
     fontWeight: "600",
-    color: COLORS.tertiary,
+    color: COLORS.tertiary
   },
   buttonContainer: {
     flexDirection: "column",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   buttonRow: {
-    flexDirection: "row",
-  },
+    flexDirection: "row"
+  }
 });
+
+Gameplay.propTypes = {
+  navigateTo: PropTypes.func.isRequired
+};
+
+export default Gameplay;

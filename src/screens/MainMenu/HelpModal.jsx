@@ -1,8 +1,9 @@
+import PropTypes from "prop-types";
 import React from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { COLORS } from "../../constants/colors";
 
-export default function HelpModal({ visible, onClose }) {
+function HelpModal({ visible, onClose }) {
   return (
     <Modal
       transparent
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.1)",
     justifyContent: "center",
-    alignItems: "center",
+    alignItems: "center"
   },
   modalContainer: {
     position: "relative",
@@ -39,15 +40,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     backgroundColor: COLORS.secondary,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   modalText: {
     fontSize: 24,
-    color: COLORS.background,
+    color: COLORS.background
   },
   closeButton: {
     position: "absolute",
     top: 5,
-    right: 10,
-  },
+    right: 10
+  }
 });
+
+HelpModal.propTypes = {
+  visible: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired
+};
+
+export default HelpModal;
