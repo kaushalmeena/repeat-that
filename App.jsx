@@ -8,10 +8,10 @@ export default function App() {
   const [screenName, setScreenName] = useState(SCREENS.MainMenu);
   const [screenData, setScreenData] = useState({});
 
-  function navigateTo(name, data = {}) {
+  const navigateTo = (name, data = {}) => {
     setScreenName(name);
     setScreenData(data);
-  }
+  };
 
   switch (screenName) {
     case SCREENS.GameOver:
@@ -20,6 +20,7 @@ export default function App() {
       return <Gameplay screenData={screenData} navigateTo={navigateTo} />;
     case SCREENS.MainMenu:
       return <MainMenu screenData={screenData} navigateTo={navigateTo} />;
+    default:
   }
   return null;
 }

@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { COLORS } from "../../constants/colors";
@@ -5,27 +6,27 @@ import { SCREENS } from "../../constants/screens";
 import { fetchBestScore } from "../../utils/score";
 import HelpModal from "./HelpModal";
 
-export default function MainMenu({ navigateTo }) {
+function MainMenu({ navigateTo }) {
   const [visible, setVisible] = useState(false);
   const [bestScore, setBestScore] = useState(0);
 
-  useEffect(function () {
-    fetchBestScore().then(function (score) {
+  useEffect(() => {
+    fetchBestScore().then((score) => {
       setBestScore(score);
     });
   }, []);
 
-  function handleOpenModal() {
+  const handleOpenModal = () => {
     setVisible(true);
-  }
+  };
 
-  function handleCloseModal() {
+  const handleCloseModal = () => {
     setVisible(false);
-  }
+  };
 
-  function handleGameplayNavigation() {
+  const handleGameplayNavigation = () => {
     navigateTo(SCREENS.Gameplay);
-  }
+  };
 
   return (
     <>
@@ -61,56 +62,62 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.background,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   topContainer: {
     marginVertical: 40,
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   titleText1: {
     fontSize: 64,
     fontWeight: "700",
-    color: COLORS.primary,
+    color: COLORS.primary
   },
   titleText2: {
     fontSize: 54,
     fontWeight: "600",
-    color: COLORS.secondary,
+    color: COLORS.secondary
   },
   scoreContainer: {
     width: "100%",
     paddingVertical: 10,
-    backgroundColor: COLORS.secondary,
+    backgroundColor: COLORS.secondary
   },
   scoreText: {
     textAlign: "center",
     fontSize: 34,
     fontWeight: "600",
-    color: COLORS.background,
+    color: COLORS.background
   },
   mainContainer: {
     marginTop: 40,
-    marginBottom: 20,
+    marginBottom: 20
   },
   playButton: {
     padding: 20,
     backgroundColor: COLORS.primary,
-    borderRadius: 8,
+    borderRadius: 8
   },
   playButtonText: {
     textAlign: "center",
     fontSize: 34,
     fontWeight: "600",
-    color: COLORS.background,
+    color: COLORS.background
   },
   bottomContainer: {
-    margin: 20,
+    margin: 20
   },
   helpButtonText: {
     fontSize: 30,
     fontWeight: "400",
-    color: COLORS.secondary,
-  },
+    color: COLORS.secondary
+  }
 });
+
+MainMenu.propTypes = {
+  navigateTo: PropTypes.func.isRequired
+};
+
+export default MainMenu;
