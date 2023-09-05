@@ -17,7 +17,7 @@ function HelpModal({ visible, onClose }) {
             <Text style={styles.modalText}>X</Text>
           </TouchableOpacity>
           <Text style={styles.modalText}>
-            Colored buttons are flashed on screen in particular secquence, user
+            Colored buttons are flashed on screen in particular sequence, user
             must remember the sequence and repeat it.
           </Text>
         </View>
