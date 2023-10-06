@@ -14,7 +14,7 @@ export async function fetchBestScore() {
 
 export async function storeBestScore(score) {
   try {
-    await AsyncStorage.setItem("bestScore", score);
+    await AsyncStorage.setItem("bestScore", score.toString());
   } catch (err) {
     console.log(err);
   }
