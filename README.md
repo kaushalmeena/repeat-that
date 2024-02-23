@@ -20,22 +20,22 @@ To set up everything in your local machine, you need to follow these steps:
 1. Clone this repo and then change directory to the `repeat-that` folder:
 
 ```bash
-$ git clone https://github.com/kaushalmeena/repeat-that.git
-$ cd repeat-that
+git clone https://github.com/kaushalmeena/repeat-that.git
+cd repeat-that
 ```
 
 2. Install project dependencies using npm:
 
 ```bash
-$ npm install
+npm install
 ```
 
-### Runnning
+### Running
 
 To run the project simply run:
 
 ```bash
-$ npm start
+npm start
 ```
 
 ## Screenshots
