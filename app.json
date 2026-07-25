@@ -1,21 +1,13 @@
 {
   "expo": {
-    "name": "Repeat-That",
+    "name": "Repeat That",
     "slug": "repeat-that",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#FCF8E8"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "userInterfaceStyle": "light",
+    "scheme": "repeat-that",
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.readthat",
       "supportsTablet": true
@@ -29,6 +21,17 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 220,
+          "resizeMode": "contain",
+          "backgroundColor": "#FCF8E8"
+        }
+      ]
+    ]
   }
 }
