@@ -1,10 +1,10 @@
 import { router, useLocalSearchParams } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { HomeIcon } from "@/components/icons/HomeIcon";
-import { ReplayIcon } from "@/components/icons/ReplayIcon";
 import { ScreenView } from "@/components/ScreenView";
 import { COLORS } from "@/constants/colors";
 import { useBestScore } from "@/hooks/useBestScore";
+import { HomeIcon } from "@/icons/HomeIcon";
+import { ReplayIcon } from "@/icons/ReplayIcon";
 import { playButtonFeedback } from "@/lib/feedback";
 
 export default function GameOverScreen() {

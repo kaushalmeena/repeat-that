@@ -19,7 +19,7 @@ little quicker, until you slip.
 <table>
   <tr>
     <td width="33%"><img src="screenshots/MainMenu.png"></td>
-    <td width="33%"><img src="screenshots/Gameplay.png"></td>
+    <td width="33%"><img src="screenshots/GamePlay.png"></td>
     <td width="33%"><img src="screenshots/GameOver.png"></td>
   </tr>
 </table>
@@ -61,13 +61,16 @@ app/                      # Expo Router picks routes up from this directory
 ├── game-play.tsx         # Gameplay    ->  /game-play
 └── game-over.tsx         # Result      ->  /game-over?score=N
 src/
-├── components/           # Reusable views, with SVG icons under icons/
+├── components/           # Reusable views
+├── icons/                # SVG icon components
 ├── hooks/                # useSimonGame (game loop), useBestScore (persistence)
 ├── lib/                  # Framework-free: simon.ts rules, sequence, storage,
 │                         #   feedback (audio + haptics), plus *.test.ts
 ├── constants/            # Colors, tile palette, and gameplay tuning values
 └── types/                # Ambient declarations for asset imports
-assets/audio/             # Tile tones, the losing buzz, and the UI click
+assets/
+├── audio/                # Tile tones, the losing buzz, and the UI click
+└── images/               # App icon, adaptive icon, splash icon, favicon
 ```
 
 The entry point is `expo-router/entry`, set as `"main"` in package.json. Files
