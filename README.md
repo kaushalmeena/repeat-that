@@ -33,8 +33,8 @@ little quicker, until you slip.
   a good memory for the last round is no substitute for watching this one.
 - **Progressive difficulty** — each round adds a tile *and* closes the gap
   between flashes, down to a floor.
-- **Immediate feedback** — a wrong tap ends the run there and then, with sound
-  and haptics on every tap.
+- **Immediate feedback** — a wrong tap ends the run there and then. Every tap is
+  heard and felt: tiles play their own note, buttons get a quieter click.
 - **Persistent best score** — your record is saved on the device, and a new one
   is called out on the game over screen.
 - **Cross-platform** — iOS, Android, and web from a single codebase.
@@ -44,6 +44,7 @@ little quicker, until you slip.
 | Area           | Tools                                                                                       |
 | -------------- | ------------------------------------------------------------------------------------------- |
 | **Framework**  | [Expo](https://expo.dev/) SDK 57 · [React Native](https://reactnative.dev/) 0.86             |
+| **Routing**    | [Expo Router](https://docs.expo.dev/router/introduction/) 57 (file-based)                     |
 | **Language**   | [TypeScript](https://www.typescriptlang.org/) 6.0                                            |
 | **UI**         | [React](https://react.dev/) 19.2 · [react-native-svg](https://github.com/software-mansion/react-native-svg) |
 | **Feedback**   | [expo-audio](https://docs.expo.dev/versions/latest/sdk/audio/) · [expo-haptics](https://docs.expo.dev/versions/latest/sdk/haptics/) |
@@ -54,20 +55,24 @@ little quicker, until you slip.
 ## Project Structure
 
 ```
+app/                      # Expo Router picks routes up from this directory
+├── _layout.tsx           # Stack options shared by every route
+├── index.tsx             # Main menu   ->  /
+├── game-play.tsx         # Gameplay    ->  /game-play
+└── game-over.tsx         # Result      ->  /game-over?score=N
 src/
-├── main.tsx              # Entry point, referenced by "main" in package.json
-├── App.tsx               # Providers (safe area, status bar)
-├── navigation/
-│   ├── Router.tsx        # Screen switch driven by the current route
-│   └── routes.ts         # Route union — params live on the route that needs them
-├── screens/              # One file per screen
 ├── components/           # Reusable views, with SVG icons under icons/
 ├── hooks/                # useSimonGame (game loop), useBestScore (persistence)
 ├── lib/                  # Framework-free: simon.ts rules, sequence, storage,
 │                         #   feedback (audio + haptics), plus *.test.ts
 ├── constants/            # Colors, tile palette, and gameplay tuning values
 └── types/                # Ambient declarations for asset imports
+assets/audio/             # Tile tones, the losing buzz, and the UI click
 ```
+
+The entry point is `expo-router/entry`, set as `"main"` in package.json. Files
+under `app/` export **default** components because that is how Expo Router
+discovers them; everything under `src/` uses named exports.
 
 The rules of the game live in `src/lib/simon.ts` as plain functions over a
 `GameState`, with no React involved — which is what makes them straightforward to

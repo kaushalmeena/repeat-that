@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { GameTitle } from "@/components/GameTitle";
@@ -5,11 +6,21 @@ import { HelpModal } from "@/components/HelpModal";
 import { ScreenView } from "@/components/ScreenView";
 import { COLORS } from "@/constants/colors";
 import { useBestScore } from "@/hooks/useBestScore";
-import type { Navigate } from "@/navigation/routes";
+import { playButtonFeedback } from "@/lib/feedback";
 
-export function MainMenuScreen({ navigate }: { navigate: Navigate }) {
+export default function MainMenuScreen() {
   const [helpVisible, setHelpVisible] = useState(false);
   const { bestScore } = useBestScore();
+
+  const startGame = () => {
+    playButtonFeedback();
+    router.push("/game-play");
+  };
+
+  const openHelp = () => {
+    playButtonFeedback();
+    setHelpVisible(true);
+  };
 
   return (
     <ScreenView>
@@ -20,14 +31,14 @@ export function MainMenuScreen({ navigate }: { navigate: Navigate }) {
       <TouchableOpacity
         accessibilityRole="button"
         style={styles.playButton}
-        onPress={() => navigate({ name: "Gameplay" })}
+        onPress={startGame}
       >
         <Text style={styles.playButtonText}>PLAY</Text>
       </TouchableOpacity>
       <TouchableOpacity
         accessibilityRole="button"
         style={styles.helpButton}
-        onPress={() => setHelpVisible(true)}
+        onPress={openHelp}
       >
         <Text style={styles.helpButtonText}>How to play?</Text>
       </TouchableOpacity>

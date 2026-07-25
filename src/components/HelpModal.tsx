@@ -1,5 +1,6 @@
 import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { COLORS } from "@/constants/colors";
+import { playButtonFeedback } from "@/lib/feedback";
 
 const STEPS = [
   {
@@ -23,6 +24,13 @@ export function HelpModal({
   visible: boolean;
   onClose: () => void;
 }) {
+  // The modal owns the click for every way out of it, including the Android
+  // back button, so callers only have to close it.
+  const dismiss = () => {
+    playButtonFeedback();
+    onClose();
+  };
+
   return (
     <Modal
       transparent
@@ -31,14 +39,14 @@ export function HelpModal({
       // Modal fades its whole tree, scrim included, in and out. It also stays
       // mounted for the exit animation, so no manual lifecycle is needed.
       animationType="fade"
-      onRequestClose={onClose}
+      onRequestClose={dismiss}
     >
       <View style={styles.root}>
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="Dismiss"
           style={styles.scrim}
-          onPress={onClose}
+          onPress={dismiss}
         />
         <View style={styles.card}>
           <Text style={styles.title}>HOW TO PLAY</Text>
@@ -57,7 +65,7 @@ export function HelpModal({
           <Pressable
             accessibilityRole="button"
             style={styles.closeButton}
-            onPress={onClose}
+            onPress={dismiss}
           >
             <Text style={styles.closeButtonText}>GOT IT</Text>
           </Pressable>

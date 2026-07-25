@@ -10,9 +10,14 @@ import tileToneA from "../../assets/audio/tile-a.wav";
 import tileToneB from "../../assets/audio/tile-b.wav";
 import tileToneC from "../../assets/audio/tile-c.wav";
 import tileToneD from "../../assets/audio/tile-d.wav";
+import uiTapTone from "../../assets/audio/ui-tap.wav";
 
-/** One cue per tile, plus the buzz that ends a run. */
-type Cue = Move | "gameOver";
+/**
+ * One cue per tile, plus the buzz that ends a run and a click for ordinary
+ * buttons. The click sits well above the tile tones in pitch and below them in
+ * level, so navigating never sounds like playing.
+ */
+type Cue = Move | "gameOver" | "button";
 
 /**
  * Audio and haptics are decoration. A device that will not play them still
@@ -30,7 +35,8 @@ function createPlayers(): Record<Cue, AudioPlayer> {
     B: createAudioPlayer(tileToneB),
     C: createAudioPlayer(tileToneC),
     D: createAudioPlayer(tileToneD),
-    gameOver: createAudioPlayer(gameOverTone)
+    gameOver: createAudioPlayer(gameOverTone),
+    button: createAudioPlayer(uiTapTone)
   };
 }
 
@@ -60,6 +66,13 @@ export function playFlashFeedback(move: Move): void {
 export function playTapFeedback(move: Move): void {
   playCue(move);
   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(ignore);
+}
+
+/** Any ordinary button: play, help, dismiss, home, replay. */
+export function playButtonFeedback(): void {
+  playCue("button");
+  // The lightest of the three haptics — this is chrome, not gameplay.
+  Haptics.selectionAsync().catch(ignore);
 }
 
 /** A wrong tap, ending the run. */

@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
 import { loadBestScore, saveBestScore } from "@/lib/storage";
 
 /**
@@ -12,24 +13,29 @@ export function useBestScore(score?: number): {
 } {
   const [best, setBest] = useState({ bestScore: 0, isNewBest: false });
 
-  useEffect(() => {
-    let active = true;
+  // Re-read whenever the screen regains focus rather than only on mount. The
+  // menu stays mounted underneath the game in the navigation stack, so a
+  // mount-only read would still be showing the score from before the last run.
+  useFocusEffect(
+    useCallback(() => {
+      let active = true;
 
-    loadBestScore().then((stored) => {
-      if (!active) {
-        return;
-      }
-      const isNewBest = score !== undefined && score > stored;
-      setBest({ bestScore: isNewBest ? score : stored, isNewBest });
-      if (isNewBest) {
-        void saveBestScore(score);
-      }
-    });
+      loadBestScore().then((stored) => {
+        if (!active) {
+          return;
+        }
+        const isNewBest = score !== undefined && score > stored;
+        setBest({ bestScore: isNewBest ? score : stored, isNewBest });
+        if (isNewBest) {
+          void saveBestScore(score);
+        }
+      });
 
-    return () => {
-      active = false;
-    };
-  }, [score]);
+      return () => {
+        active = false;
+      };
+    }, [score])
+  );
 
   return best;
 }

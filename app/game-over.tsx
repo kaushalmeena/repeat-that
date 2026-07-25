@@ -1,19 +1,35 @@
+import { router, useLocalSearchParams } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { HomeIcon } from "@/components/icons/HomeIcon";
 import { ReplayIcon } from "@/components/icons/ReplayIcon";
 import { ScreenView } from "@/components/ScreenView";
 import { COLORS } from "@/constants/colors";
 import { useBestScore } from "@/hooks/useBestScore";
-import type { Navigate } from "@/navigation/routes";
+import { playButtonFeedback } from "@/lib/feedback";
 
-export function GameOverScreen({
-  score,
-  navigate
-}: {
-  score: number;
-  navigate: Navigate;
-}) {
+export default function GameOverScreen() {
+  // Route params arrive as strings, and this screen can be opened directly by
+  // URL, so anything unparseable is treated as no score rather than trusted.
+  const { score: rawScore } = useLocalSearchParams<{ score?: string }>();
+  const score = Number(rawScore) || 0;
+
   const { bestScore, isNewBest } = useBestScore(score);
+
+  const goHome = () => {
+    playButtonFeedback();
+    // Drop the whole stack back to the menu. Opening this screen from a link
+    // leaves nothing to pop, so fall back to replacing it outright.
+    if (router.canDismiss()) {
+      router.dismissAll();
+    } else {
+      router.replace("/");
+    }
+  };
+
+  const playAgain = () => {
+    playButtonFeedback();
+    router.replace("/game-play");
+  };
 
   return (
     <ScreenView>
@@ -34,7 +50,7 @@ export function GameOverScreen({
             accessibilityRole="button"
             accessibilityLabel="Main menu"
             style={styles.actionButton}
-            onPress={() => navigate({ name: "MainMenu" })}
+            onPress={goHome}
           >
             <HomeIcon fill={COLORS.background} height={60} width={60} />
           </TouchableOpacity>
@@ -42,7 +58,7 @@ export function GameOverScreen({
             accessibilityRole="button"
             accessibilityLabel="Play again"
             style={styles.actionButton}
-            onPress={() => navigate({ name: "Gameplay" })}
+            onPress={playAgain}
           >
             <ReplayIcon fill={COLORS.background} height={60} width={60} />
           </TouchableOpacity>

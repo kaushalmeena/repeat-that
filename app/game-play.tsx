@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { GameTitle } from "@/components/GameTitle";
@@ -6,17 +7,18 @@ import { TileButton } from "@/components/TileButton";
 import { COLORS } from "@/constants/colors";
 import { MOVES } from "@/constants/game";
 import { useSimonGame } from "@/hooks/useSimonGame";
-import type { Navigate } from "@/navigation/routes";
 
-export function GameplayScreen({ navigate }: { navigate: Navigate }) {
+export default function GamePlayScreen() {
   const { phase, score, round, litMove, pressMove } = useSimonGame();
   const watching = phase === "watch";
 
   useEffect(() => {
     if (phase === "over") {
-      navigate({ name: "GameOver", score });
+      // Replace rather than push: a finished game is not somewhere the back
+      // gesture should be able to return to.
+      router.replace({ pathname: "/game-over", params: { score } });
     }
-  }, [phase, score, navigate]);
+  }, [phase, score]);
 
   return (
     <ScreenView>
