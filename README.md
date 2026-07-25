@@ -52,38 +52,6 @@ little quicker, until you slip.
 | **Testing**    | [Jest](https://jestjs.io/) 29 · [jest-expo](https://docs.expo.dev/develop/unit-testing/)     |
 | **Lint/Format**| [Biome](https://biomejs.dev/) 2.5                                                            |
 
-## Project Structure
-
-```
-app/                      # Expo Router picks routes up from this directory
-├── _layout.tsx           # Stack options shared by every route
-├── index.tsx             # Main menu   ->  /
-├── game-play.tsx         # Gameplay    ->  /game-play
-└── game-over.tsx         # Result      ->  /game-over?score=N
-src/
-├── components/           # Reusable views
-├── icons/                # SVG icon components
-├── hooks/                # useSimonGame (game loop), useBestScore (persistence)
-├── lib/                  # Framework-free: simon.ts rules, sequence, storage,
-│                         #   feedback (audio + haptics), plus *.test.ts
-├── constants/            # Colors, tile palette, and gameplay tuning values
-└── types/                # Ambient declarations for asset imports
-assets/
-├── audio/                # Tile tones, the losing buzz, and the UI click
-└── images/               # App icon, adaptive icon, splash icon, favicon
-```
-
-The entry point is `expo-router/entry`, set as `"main"` in package.json. Files
-under `app/` export **default** components because that is how Expo Router
-discovers them; everything under `src/` uses named exports.
-
-The rules of the game live in `src/lib/simon.ts` as plain functions over a
-`GameState`, with no React involved — which is what makes them straightforward to
-unit test. `useSimonGame` is the thin layer that drives them with timers.
-
-The `android/` and `ios/` directories are not tracked — they are generated
-output. Run `npm run prebuild` when you need them for a native build.
-
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your
