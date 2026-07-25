@@ -49,3 +49,4 @@ yarn-error.*
 .serena
 .serena.symlink
 local/
+.claude/

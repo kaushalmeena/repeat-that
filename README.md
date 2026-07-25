@@ -4,8 +4,9 @@
 
 **A React Native memory game inspired by Simon.**
 
-Tiles flash on screen in a growing sequence. Watch it, then repeat it from
-memory — one extra tile every round, until you slip.
+Colored tiles flash on screen, each with its own tone. Watch the sequence, then
+tap it back from memory. Every round is a new sequence, one tile longer and a
+little quicker, until you slip.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-3DA639?logo=opensourceinitiative&logoColor=white)](LICENSE) [![React Native](https://img.shields.io/badge/React_Native-0.86-61DAFB?logo=react&logoColor=black)](https://reactnative.dev/) [![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/) [![Expo SDK](https://img.shields.io/badge/Expo_SDK-57-000020?logo=expo&logoColor=white)](https://expo.dev/)
 
@@ -26,8 +27,16 @@ memory — one extra tile every round, until you slip.
 ## Features
 
 - **Classic Simon gameplay** — watch the sequence, then repeat it from memory.
-- **Progressive difficulty** — every cleared round adds one more tile.
-- **Persistent best score** — your record is saved on the device.
+- **Four distinct tiles** — each with its own color and its own musical tone,
+  and a letter so the game still works without color vision.
+- **A fresh sequence every round** — rounds are redrawn rather than extended, so
+  a good memory for the last round is no substitute for watching this one.
+- **Progressive difficulty** — each round adds a tile *and* closes the gap
+  between flashes, down to a floor.
+- **Immediate feedback** — a wrong tap ends the run there and then, with sound
+  and haptics on every tap.
+- **Persistent best score** — your record is saved on the device, and a new one
+  is called out on the game over screen.
 - **Cross-platform** — iOS, Android, and web from a single codebase.
 
 ## Tech Stack
@@ -37,7 +46,9 @@ memory — one extra tile every round, until you slip.
 | **Framework**  | [Expo](https://expo.dev/) SDK 57 · [React Native](https://reactnative.dev/) 0.86             |
 | **Language**   | [TypeScript](https://www.typescriptlang.org/) 6.0                                            |
 | **UI**         | [React](https://react.dev/) 19.2 · [react-native-svg](https://github.com/software-mansion/react-native-svg) |
+| **Feedback**   | [expo-audio](https://docs.expo.dev/versions/latest/sdk/audio/) · [expo-haptics](https://docs.expo.dev/versions/latest/sdk/haptics/) |
 | **Storage**    | [AsyncStorage](https://react-native-async-storage.github.io/async-storage/)                 |
+| **Testing**    | [Jest](https://jestjs.io/) 29 · [jest-expo](https://docs.expo.dev/develop/unit-testing/)     |
 | **Lint/Format**| [Biome](https://biomejs.dev/) 2.5                                                            |
 
 ## Project Structure
@@ -52,9 +63,15 @@ src/
 ├── screens/              # One file per screen
 ├── components/           # Reusable views, with SVG icons under icons/
 ├── hooks/                # useSimonGame (game loop), useBestScore (persistence)
-├── lib/                  # Framework-free helpers: sequence logic, storage
-└── constants/            # Colors and gameplay tuning values
+├── lib/                  # Framework-free: simon.ts rules, sequence, storage,
+│                         #   feedback (audio + haptics), plus *.test.ts
+├── constants/            # Colors, tile palette, and gameplay tuning values
+└── types/                # Ambient declarations for asset imports
 ```
+
+The rules of the game live in `src/lib/simon.ts` as plain functions over a
+`GameState`, with no React involved — which is what makes them straightforward to
+unit test. `useSimonGame` is the thin layer that drives them with timers.
 
 The `android/` and `ios/` directories are not tracked — they are generated
 output. Run `npm run prebuild` when you need them for a native build.
@@ -117,6 +134,7 @@ npm run start:web
 | Script              | What it does                                     |
 | ------------------- | ------------------------------------------------ |
 | `npm start`         | Start the Expo dev server                        |
+| `npm test`          | Run the unit tests with Jest                     |
 | `npm run typecheck` | Type check with `tsc --noEmit`                   |
 | `npm run lint`      | Lint and check formatting with Biome             |
 | `npm run lint:fix`  | Apply Biome's safe fixes                         |
@@ -130,8 +148,8 @@ Contributions are welcome! If you find a bug or have a feature request, please
 first to discuss it. For code changes, fork the repository, create a branch,
 and open a pull request.
 
-Please make sure `npm run typecheck` and `npm run lint` both pass before
-opening a pull request.
+Please make sure `npm test`, `npm run typecheck`, and `npm run lint` all pass
+before opening a pull request.
 
 ## License
 

@@ -13,14 +13,22 @@ export function GameOverScreen({
   score: number;
   navigate: Navigate;
 }) {
-  const bestScore = useBestScore(score);
+  const { bestScore, isNewBest } = useBestScore(score);
 
   return (
     <ScreenView>
       <View style={styles.card}>
         <Text style={styles.title}>GAME OVER</Text>
         <Text style={styles.score}>SCORE: {score}</Text>
-        <Text style={styles.bestScore}>BEST: {bestScore}</Text>
+        {isNewBest ? (
+          // The new best and the score just shown are the same number, so the
+          // badge stands in for the BEST line rather than adding to it.
+          <View style={styles.newBest}>
+            <Text style={styles.newBestText}>NEW BEST!</Text>
+          </View>
+        ) : (
+          <Text style={styles.bestScore}>BEST: {bestScore}</Text>
+        )}
         <View style={styles.actions}>
           <TouchableOpacity
             accessibilityRole="button"
@@ -73,6 +81,21 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "500",
     color: COLORS.background
+  },
+  newBest: {
+    // Sized to sit in the same vertical space as the BEST line it replaces.
+    marginVertical: 2,
+    paddingHorizontal: 14,
+    paddingVertical: 3,
+    backgroundColor: COLORS.background,
+    borderRadius: 999
+  },
+  newBestText: {
+    textAlign: "center",
+    fontSize: 22,
+    fontWeight: "700",
+    letterSpacing: 1,
+    color: COLORS.secondary
   },
   actions: {
     position: "absolute",

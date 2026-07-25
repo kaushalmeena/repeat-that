@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text } from "react-native";
-import { COLORS } from "@/constants/colors";
+import { COLORS, TILE_COLORS } from "@/constants/colors";
 import type { Move } from "@/constants/game";
 
 export function TileButton({
@@ -14,6 +14,8 @@ export function TileButton({
   lit: boolean;
   onPress: (move: Move) => void;
 }) {
+  const tile = TILE_COLORS[move];
+
   return (
     <Pressable
       accessibilityRole="button"
@@ -22,7 +24,7 @@ export function TileButton({
       onPress={() => onPress(move)}
       style={({ pressed }) => [
         styles.container,
-        (pressed || lit) && styles.lit
+        { backgroundColor: pressed || lit ? tile.lit : tile.idle }
       ]}
     >
       <Text style={styles.label}>{move}</Text>
@@ -37,16 +39,12 @@ const styles = StyleSheet.create({
     margin: 10,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: COLORS.primary,
     borderRadius: 8
-  },
-  lit: {
-    opacity: 0.5
   },
   label: {
     textAlign: "center",
     fontSize: 48,
     fontWeight: "600",
-    color: COLORS.background
+    color: COLORS.ink
   }
 });

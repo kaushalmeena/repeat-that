@@ -1,6 +1,21 @@
 import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { COLORS } from "@/constants/colors";
 
+const STEPS = [
+  {
+    title: "WATCH",
+    body: "The tiles light up one at a time, each with its own tone."
+  },
+  {
+    title: "REPEAT",
+    body: "Tap them back in the same order, from first to last."
+  },
+  {
+    title: "SURVIVE",
+    body: "Each round is a brand new sequence, one tile longer and a little quicker. One wrong tap ends the run."
+  }
+];
+
 export function HelpModal({
   visible,
   onClose
@@ -27,9 +42,17 @@ export function HelpModal({
         />
         <View style={styles.card}>
           <Text style={styles.title}>HOW TO PLAY</Text>
-          <Text style={styles.body}>
-            Tiles flash on screen in a particular sequence. Remember the
-            sequence and repeat it. Every round adds one more tile.
+          {STEPS.map((step, index) => (
+            <View key={step.title} style={styles.step}>
+              <Text style={styles.stepNumber}>{index + 1}</Text>
+              <View style={styles.stepBody}>
+                <Text style={styles.stepTitle}>{step.title}</Text>
+                <Text style={styles.stepText}>{step.body}</Text>
+              </View>
+            </View>
+          ))}
+          <Text style={styles.footnote}>
+            Your longest run is saved as your best score.
           </Text>
           <Pressable
             accessibilityRole="button"
@@ -62,31 +85,70 @@ const styles = StyleSheet.create({
   card: {
     width: "100%",
     maxWidth: 400,
-    padding: 24,
+    padding: 28,
     backgroundColor: COLORS.secondary,
-    borderRadius: 12
+    borderRadius: 16,
+    // One cross-platform shadow. The older shadow*/elevation pair is deprecated
+    // on web, and boxShadow covers iOS and Android under the new renderer.
+    boxShadow: "0px 10px 24px rgba(0, 0, 0, 0.3)"
   },
   title: {
-    marginBottom: 12,
-    fontSize: 28,
+    marginBottom: 22,
+    textAlign: "center",
+    fontSize: 26,
     fontWeight: "700",
+    letterSpacing: 1.5,
     color: COLORS.background
   },
-  body: {
-    fontSize: 20,
+  step: {
+    flexDirection: "row",
+    gap: 14,
+    marginBottom: 18
+  },
+  stepNumber: {
+    height: 28,
+    width: 28,
+    backgroundColor: COLORS.background,
+    borderRadius: 14,
+    textAlign: "center",
     lineHeight: 28,
+    fontSize: 16,
+    fontWeight: "700",
+    color: COLORS.secondary
+  },
+  stepBody: {
+    flex: 1
+  },
+  stepTitle: {
+    marginBottom: 3,
+    fontSize: 16,
+    fontWeight: "700",
+    letterSpacing: 1,
     color: COLORS.background
+  },
+  stepText: {
+    fontSize: 15,
+    lineHeight: 21,
+    color: COLORS.backgroundMuted
+  },
+  footnote: {
+    marginTop: 2,
+    marginBottom: 22,
+    textAlign: "center",
+    fontSize: 13,
+    lineHeight: 18,
+    color: COLORS.backgroundMuted
   },
   closeButton: {
-    marginTop: 24,
-    paddingVertical: 12,
+    paddingVertical: 13,
     backgroundColor: COLORS.background,
-    borderRadius: 8
+    borderRadius: 10
   },
   closeButtonText: {
     textAlign: "center",
-    fontSize: 20,
+    fontSize: 17,
     fontWeight: "700",
+    letterSpacing: 1,
     color: COLORS.secondary
   }
 });

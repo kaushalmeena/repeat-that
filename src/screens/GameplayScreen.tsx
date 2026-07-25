@@ -9,7 +9,7 @@ import { useSimonGame } from "@/hooks/useSimonGame";
 import type { Navigate } from "@/navigation/routes";
 
 export function GameplayScreen({ navigate }: { navigate: Navigate }) {
-  const { phase, score, litMove, pressMove } = useSimonGame();
+  const { phase, score, round, litMove, pressMove } = useSimonGame();
   const watching = phase === "watch";
 
   useEffect(() => {
@@ -24,7 +24,8 @@ export function GameplayScreen({ navigate }: { navigate: Navigate }) {
         title={watching ? "WATCH" : "REPEAT"}
         subtitle={watching ? "THIS" : "THAT"}
       />
-      <Text style={styles.score}>{score}</Text>
+      <Text style={styles.roundLabel}>ROUND</Text>
+      <Text style={styles.round}>{round}</Text>
       <View style={styles.tileGrid}>
         {MOVES.map((move) => (
           <TileButton
@@ -41,8 +42,16 @@ export function GameplayScreen({ navigate }: { navigate: Navigate }) {
 }
 
 const styles = StyleSheet.create({
-  score: {
-    marginVertical: 20,
+  roundLabel: {
+    marginTop: 18,
+    textAlign: "center",
+    fontSize: 14,
+    fontWeight: "700",
+    letterSpacing: 2,
+    color: COLORS.tertiary
+  },
+  round: {
+    marginBottom: 18,
     textAlign: "center",
     fontSize: 48,
     fontWeight: "600",

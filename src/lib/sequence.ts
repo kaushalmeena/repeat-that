@@ -7,10 +7,3 @@ export function randomMove(): Move {
 export function randomSequence(length: number): Move[] {
   return Array.from({ length }, randomMove);
 }
-
-export function sequencesMatch(
-  a: readonly Move[],
-  b: readonly Move[]
-): boolean {
-  return a.length === b.length && a.every((move, index) => move === b[index]);
-}

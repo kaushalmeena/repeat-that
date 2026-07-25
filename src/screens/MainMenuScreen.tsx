@@ -9,7 +9,7 @@ import type { Navigate } from "@/navigation/routes";
 
 export function MainMenuScreen({ navigate }: { navigate: Navigate }) {
   const [helpVisible, setHelpVisible] = useState(false);
-  const bestScore = useBestScore();
+  const { bestScore } = useBestScore();
 
   return (
     <ScreenView>

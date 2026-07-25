@@ -1,89 +1,103 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { FLASH_DURATION_MS, type Move } from "@/constants/game";
 import {
-  FLASH_DURATION_MS,
-  FLASH_GAP_MS,
-  INITIAL_SEQUENCE_LENGTH,
-  type Move
-} from "@/constants/game";
-import { randomMove, randomSequence, sequencesMatch } from "@/lib/sequence";
-
-export type GamePhase = "watch" | "repeat" | "over";
+  playFlashFeedback,
+  playGameOverFeedback,
+  playTapFeedback
+} from "@/lib/feedback";
+import {
+  applyMove,
+  flashGapMs,
+  type GamePhase,
+  type GameState,
+  roundOf,
+  scoreOf,
+  startGame,
+  startInput
+} from "@/lib/simon";
 
 export type SimonGame = {
   /** Whether the sequence is playing back, awaiting input, or finished. */
   phase: GamePhase;
   score: number;
+  /** The round in play, counting from one. */
+  round: number;
   /** The tile currently lit during playback, if any. */
   litMove: Move | null;
   pressMove: (move: Move) => void;
 };
 
 export function useSimonGame(): SimonGame {
-  const [sequence, setSequence] = useState<Move[]>(() =>
-    randomSequence(INITIAL_SEQUENCE_LENGTH)
-  );
-  const [phase, setPhase] = useState<GamePhase>("watch");
+  const [state, setState] = useState<GameState>(startGame);
   const [litMove, setLitMove] = useState<Move | null>(null);
-  const playerMoves = useRef<Move[]>([]);
 
-  // Play the sequence back one tile at a time, then hand control to the
-  // player. Both timers live inside this effect so leaving the screen
-  // mid-playback cannot fire a flash after the screen is gone.
+  // Taps can land faster than React re-renders, so the ref is the state of
+  // record and `state` is only the copy the screen draws from. Every transition
+  // goes through `commit`, which keeps the two in step.
+  const latest = useRef(state);
+  const commit = useCallback((next: GameState) => {
+    latest.current = next;
+    setState(next);
+  }, []);
+
+  const { phase, sequence } = state;
+  const score = scoreOf(state);
+
+  // Play the sequence back a tile at a time, then hand over to the player. Both
+  // timers live inside the effect so leaving the screen mid-playback cannot
+  // fire a flash after the screen is gone.
   useEffect(() => {
     if (phase !== "watch") {
       return;
     }
 
+    const gap = flashGapMs(score);
     let index = 0;
     let timer: ReturnType<typeof setTimeout>;
 
     const flashNext = () => {
       if (index >= sequence.length) {
-        setPhase("repeat");
+        commit(startInput(latest.current));
         return;
       }
 
-      setLitMove(sequence[index]);
+      const move = sequence[index];
+      setLitMove(move);
+      playFlashFeedback(move);
       index += 1;
 
       timer = setTimeout(() => {
         setLitMove(null);
-        timer = setTimeout(flashNext, FLASH_GAP_MS);
+        timer = setTimeout(flashNext, gap);
       }, FLASH_DURATION_MS);
     };
 
-    timer = setTimeout(flashNext, FLASH_GAP_MS);
+    timer = setTimeout(flashNext, gap);
 
-    return () => clearTimeout(timer);
-  }, [phase, sequence]);
+    return () => {
+      clearTimeout(timer);
+      // Bailing out mid-flash would otherwise strand a tile in its lit color.
+      setLitMove(null);
+    };
+  }, [phase, sequence, score, commit]);
 
   const pressMove = useCallback(
     (move: Move) => {
-      if (phase !== "repeat") {
+      const current = latest.current;
+      const next = applyMove(current, move);
+      if (next === current) {
         return;
       }
 
-      playerMoves.current = [...playerMoves.current, move];
-      if (playerMoves.current.length < sequence.length) {
-        return;
+      if (next.phase === "over") {
+        playGameOverFeedback();
+      } else {
+        playTapFeedback(move);
       }
-
-      if (!sequencesMatch(playerMoves.current, sequence)) {
-        setPhase("over");
-        return;
-      }
-
-      playerMoves.current = [];
-      setSequence((current) => [...current, randomMove()]);
-      setPhase("watch");
+      commit(next);
     },
-    [phase, sequence]
+    [commit]
   );
 
-  return {
-    phase,
-    score: sequence.length - INITIAL_SEQUENCE_LENGTH,
-    litMove,
-    pressMove
-  };
+  return { phase, score, round: roundOf(state), litMove, pressMove };
 }
