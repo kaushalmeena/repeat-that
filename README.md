@@ -2,13 +2,13 @@
 
 # Repeat-That
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-3DA639?logo=opensourceinitiative&logoColor=white)](LICENSE) [![Expo SDK](https://img.shields.io/badge/Expo_SDK-57-4630EB?logo=expo&logoColor=white)](https://expo.dev/) [![React Native](https://img.shields.io/badge/React_Native-0.86-087EA4?logo=react&logoColor=white)](https://reactnative.dev/) [![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+
 **A React Native memory game inspired by Simon.**
 
 Colored tiles flash on screen, each with its own tone. Watch the sequence, then
 tap it back from memory. Every round is a new sequence, one tile longer and a
 little quicker, until you slip.
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-3DA639?logo=opensourceinitiative&logoColor=white)](LICENSE) [![Expo SDK](https://img.shields.io/badge/Expo_SDK-57-4630EB?logo=expo&logoColor=white)](https://expo.dev/) [![React Native](https://img.shields.io/badge/React_Native-0.86-087EA4?logo=react&logoColor=white)](https://reactnative.dev/) [![TypeScript](https://img.shields.io/badge/TypeScript-6.0-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 
 </div>
 
