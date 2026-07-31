@@ -111,10 +111,8 @@ npm run start:web
 | ------------------- | ------------------------------------------------ |
 | `npm start`         | Start the Expo dev server                        |
 | `npm test`          | Run the unit tests with Jest                     |
-| `npm run typecheck` | Type check with `tsc --noEmit`                   |
-| `npm run lint`      | Lint and check formatting with Biome             |
+| `npm run check`     | Lint, typecheck and test — the CI gate           |
 | `npm run lint:fix`  | Apply Biome's safe fixes                         |
-| `npm run format`    | Format the codebase                              |
 | `npm run prebuild`  | Regenerate the native `android/` and `ios/` dirs |
 
 ## Contributing
@@ -124,7 +122,7 @@ Contributions are welcome! If you find a bug or have a feature request, please
 first to discuss it. For code changes, fork the repository, create a branch,
 and open a pull request.
 
-Please make sure `npm test`, `npm run typecheck`, and `npm run lint` all pass
+Please make sure `npm run check` passes
 before opening a pull request.
 
 ## License
