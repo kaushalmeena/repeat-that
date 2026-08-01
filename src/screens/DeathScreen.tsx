@@ -7,7 +7,7 @@ import { HomeIcon } from "@/icons/HomeIcon";
 import { ReplayIcon } from "@/icons/ReplayIcon";
 import { playTapPressFeedback } from "@/lib/feedback";
 
-export default function GameOverScreen() {
+export function DeathScreen() {
   // Route params arrive as strings, and this screen can be opened directly by
   // URL, so anything unparseable is treated as no score rather than trusted.
   const { score: rawScore } = useLocalSearchParams<{ score?: string }>();
@@ -28,7 +28,7 @@ export default function GameOverScreen() {
 
   const playAgain = () => {
     playTapPressFeedback();
-    router.replace("/game-play");
+    router.replace("/game");
   };
 
   return (
@@ -78,25 +78,25 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.primary,
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 8,
+    borderRadius: 8
   },
   title: {
     textAlign: "center",
     fontSize: 54,
     fontWeight: "600",
-    color: COLORS.background,
+    color: COLORS.background
   },
   score: {
     textAlign: "center",
     fontSize: 34,
     fontWeight: "700",
-    color: COLORS.background,
+    color: COLORS.background
   },
   bestScore: {
     textAlign: "center",
     fontSize: 24,
     fontWeight: "500",
-    color: COLORS.background,
+    color: COLORS.background
   },
   newBest: {
     // Sized to sit in the same vertical space as the BEST line it replaces.
@@ -104,19 +104,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 3,
     backgroundColor: COLORS.background,
-    borderRadius: 999,
+    borderRadius: 999
   },
   newBestText: {
     textAlign: "center",
     fontSize: 22,
     fontWeight: "700",
     letterSpacing: 1,
-    color: COLORS.secondary,
+    color: COLORS.secondary
   },
   actions: {
     position: "absolute",
     bottom: -50,
-    flexDirection: "row",
+    flexDirection: "row"
   },
   actionButton: {
     height: 100,
@@ -125,6 +125,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: COLORS.secondary,
-    borderRadius: 8,
-  },
+    borderRadius: 8
+  }
 });

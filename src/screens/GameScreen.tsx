@@ -8,7 +8,7 @@ import { COLORS } from "@/constants/colors";
 import { MOVES } from "@/constants/game";
 import { useSimonGame } from "@/hooks/useSimonGame";
 
-export default function GamePlayScreen() {
+export function GameScreen() {
   const { phase, score, round, litMove, pressMove } = useSimonGame();
   const watching = phase === "watch";
 
@@ -16,7 +16,7 @@ export default function GamePlayScreen() {
     if (phase === "over") {
       // Replace rather than push: a finished game is not somewhere the back
       // gesture should be able to return to.
-      router.replace({ pathname: "/game-over", params: { score } });
+      router.replace({ pathname: "/death", params: { score } });
     }
   }, [phase, score]);
 

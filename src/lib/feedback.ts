@@ -1,7 +1,7 @@
 import {
   type AudioPlayer,
   createAudioPlayer,
-  setAudioModeAsync,
+  setAudioModeAsync
 } from "expo-audio";
 import * as Haptics from "expo-haptics";
 import type { Move } from "@/constants/game";
@@ -36,7 +36,7 @@ function createPlayers(): Record<Cue, AudioPlayer> {
     C: createAudioPlayer(tileToneC),
     D: createAudioPlayer(tileToneD),
     gameOver: createAudioPlayer(gameOverTone),
-    button: createAudioPlayer(uiTapTone),
+    button: createAudioPlayer(uiTapTone)
   };
 }
 
@@ -79,6 +79,6 @@ export function playTapPressFeedback(): void {
 export function playGameOverFeedback(): void {
   playCue("gameOver");
   Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error).catch(
-    ignore,
+    ignore
   );
 }

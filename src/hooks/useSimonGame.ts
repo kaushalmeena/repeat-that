@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FLASH_DURATION_MS, type Move } from "@/constants/game";
 import {
-  playMoveFlashFeedback,
   playGameOverFeedback,
-  playMovePressFeedback,
+  playMoveFlashFeedback,
+  playMovePressFeedback
 } from "@/lib/feedback";
 import {
   applyMove,
@@ -13,7 +13,7 @@ import {
   roundOf,
   scoreOf,
   startGame,
-  startInput,
+  startInput
 } from "@/lib/simon";
 
 export type SimonGame = {
@@ -96,7 +96,7 @@ export function useSimonGame(): SimonGame {
       }
       commit(next);
     },
-    [commit],
+    [commit]
   );
 
   return { phase, score, round: roundOf(state), litMove, pressMove };

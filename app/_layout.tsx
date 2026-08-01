@@ -6,8 +6,8 @@ import { COLORS } from "@/constants/colors";
  * Root layout for the file-based routes. Expo Router already wraps the tree in a
  * SafeAreaProvider, so this only sets up the stack itself.
  *
- * Route files export default components because that is how Expo Router picks
- * them up; the rest of the codebase uses named exports.
+ * Route files re-export screens from src/screens as defaults because that is
+ * how Expo Router picks them up; the rest of the codebase uses named exports.
  */
 export default function RootLayout() {
   return (

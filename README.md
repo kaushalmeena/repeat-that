@@ -18,9 +18,9 @@ little quicker, until you slip.
 
 <table>
   <tr>
-    <td width="33%"><img src="screenshots/MainMenu.png"></td>
-    <td width="33%"><img src="screenshots/GamePlay.png"></td>
-    <td width="33%"><img src="screenshots/GameOver.png"></td>
+    <td width="33%"><img src="screenshots/Main.png"></td>
+    <td width="33%"><img src="screenshots/Game.png"></td>
+    <td width="33%"><img src="screenshots/Death.png"></td>
   </tr>
 </table>
 
