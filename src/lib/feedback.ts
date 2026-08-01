@@ -1,23 +1,23 @@
 import {
   type AudioPlayer,
   createAudioPlayer,
-  setAudioModeAsync
+  setAudioModeAsync,
 } from "expo-audio";
 import * as Haptics from "expo-haptics";
 import type { Move } from "@/constants/game";
-import gameOverTone from "../../assets/audio/game-over.wav";
-import tileToneA from "../../assets/audio/tile-a.wav";
-import tileToneB from "../../assets/audio/tile-b.wav";
-import tileToneC from "../../assets/audio/tile-c.wav";
-import tileToneD from "../../assets/audio/tile-d.wav";
-import uiTapTone from "../../assets/audio/ui-tap.wav";
+import deathTone from "../assets/audio/death.wav";
+import tapTone from "../assets/audio/tap.wav";
+import tileToneA from "../assets/audio/tile-a.wav";
+import tileToneB from "../assets/audio/tile-b.wav";
+import tileToneC from "../assets/audio/tile-c.wav";
+import tileToneD from "../assets/audio/tile-d.wav";
 
 /**
  * One cue per tile, plus the buzz that ends a run and a click for ordinary
  * buttons. The click sits well above the tile tones in pitch and below them in
  * level, so navigating never sounds like playing.
  */
-type Cue = Move | "gameOver" | "button";
+type Cue = Move | "death" | "button";
 
 /**
  * Audio and haptics are decoration. A device that will not play them still
@@ -35,8 +35,8 @@ function createPlayers(): Record<Cue, AudioPlayer> {
     B: createAudioPlayer(tileToneB),
     C: createAudioPlayer(tileToneC),
     D: createAudioPlayer(tileToneD),
-    gameOver: createAudioPlayer(gameOverTone),
-    button: createAudioPlayer(uiTapTone)
+    death: createAudioPlayer(deathTone),
+    button: createAudioPlayer(tapTone),
   };
 }
 
@@ -58,27 +58,27 @@ function playCue(cue: Cue): void {
 }
 
 /** A tile lighting up during playback. Heard, but not felt: nobody tapped. */
-export function playMoveFlashFeedback(move: Move): void {
+export function playFlashFeedback(move: Move): void {
   playCue(move);
 }
 
 /** The player tapping a tile. */
-export function playMovePressFeedback(move: Move): void {
+export function playPressFeedback(move: Move): void {
   playCue(move);
   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(ignore);
 }
 
 /** Any ordinary button: play, help, dismiss, home, replay. */
-export function playTapPressFeedback(): void {
+export function playButtonFeedback(): void {
   playCue("button");
   // The lightest of the three haptics — this is chrome, not gameplay.
   Haptics.selectionAsync().catch(ignore);
 }
 
 /** A wrong tap, ending the run. */
-export function playGameOverFeedback(): void {
-  playCue("gameOver");
+export function playDeathFeedback(): void {
+  playCue("death");
   Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error).catch(
-    ignore
+    ignore,
   );
 }
