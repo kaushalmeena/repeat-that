@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const BEST_SCORE_KEY = "bestScore";
+const BEST_SCORE_KEY = "best-score";
 
 export async function loadBestScore(): Promise<number> {
   try {

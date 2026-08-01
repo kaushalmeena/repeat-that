@@ -1,7 +1,7 @@
 import {
   type AudioPlayer,
   createAudioPlayer,
-  setAudioModeAsync
+  setAudioModeAsync,
 } from "expo-audio";
 import * as Haptics from "expo-haptics";
 import type { Move } from "@/constants/game";
@@ -36,7 +36,7 @@ function createPlayers(): Record<Cue, AudioPlayer> {
     C: createAudioPlayer(tileToneC),
     D: createAudioPlayer(tileToneD),
     gameOver: createAudioPlayer(gameOverTone),
-    button: createAudioPlayer(uiTapTone)
+    button: createAudioPlayer(uiTapTone),
   };
 }
 
@@ -58,18 +58,18 @@ function playCue(cue: Cue): void {
 }
 
 /** A tile lighting up during playback. Heard, but not felt: nobody tapped. */
-export function playFlashFeedback(move: Move): void {
+export function playMoveFlashFeedback(move: Move): void {
   playCue(move);
 }
 
 /** The player tapping a tile. */
-export function playTapFeedback(move: Move): void {
+export function playMovePressFeedback(move: Move): void {
   playCue(move);
   Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(ignore);
 }
 
 /** Any ordinary button: play, help, dismiss, home, replay. */
-export function playButtonFeedback(): void {
+export function playTapPressFeedback(): void {
   playCue("button");
   // The lightest of the three haptics — this is chrome, not gameplay.
   Haptics.selectionAsync().catch(ignore);
@@ -79,6 +79,6 @@ export function playButtonFeedback(): void {
 export function playGameOverFeedback(): void {
   playCue("gameOver");
   Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error).catch(
-    ignore
+    ignore,
   );
 }

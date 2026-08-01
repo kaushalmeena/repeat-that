@@ -6,19 +6,19 @@ import { HelpModal } from "@/components/HelpModal";
 import { ScreenView } from "@/components/ScreenView";
 import { COLORS } from "@/constants/colors";
 import { useBestScore } from "@/hooks/useBestScore";
-import { playButtonFeedback } from "@/lib/feedback";
+import { playTapPressFeedback } from "@/lib/feedback";
 
 export default function MainMenuScreen() {
   const [helpVisible, setHelpVisible] = useState(false);
   const { bestScore } = useBestScore();
 
   const startGame = () => {
-    playButtonFeedback();
+    playTapPressFeedback();
     router.push("/game-play");
   };
 
   const openHelp = () => {
-    playButtonFeedback();
+    playTapPressFeedback();
     setHelpVisible(true);
   };
 
@@ -49,38 +49,38 @@ export default function MainMenuScreen() {
 
 const styles = StyleSheet.create({
   title: {
-    marginVertical: 40
+    marginVertical: 40,
   },
   scoreBanner: {
     width: "100%",
     paddingVertical: 10,
-    backgroundColor: COLORS.secondary
+    backgroundColor: COLORS.secondary,
   },
   scoreText: {
     textAlign: "center",
     fontSize: 34,
     fontWeight: "600",
-    color: COLORS.background
+    color: COLORS.background,
   },
   playButton: {
     marginTop: 40,
     marginBottom: 20,
     padding: 20,
     backgroundColor: COLORS.primary,
-    borderRadius: 8
+    borderRadius: 8,
   },
   playButtonText: {
     textAlign: "center",
     fontSize: 34,
     fontWeight: "600",
-    color: COLORS.background
+    color: COLORS.background,
   },
   helpButton: {
-    margin: 20
+    margin: 20,
   },
   helpButtonText: {
     fontSize: 30,
     fontWeight: "400",
-    color: COLORS.secondary
-  }
+    color: COLORS.secondary,
+  },
 });

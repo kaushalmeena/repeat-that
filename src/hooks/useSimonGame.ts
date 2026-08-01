@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FLASH_DURATION_MS, type Move } from "@/constants/game";
 import {
-  playFlashFeedback,
+  playMoveFlashFeedback,
   playGameOverFeedback,
-  playTapFeedback
+  playMovePressFeedback,
 } from "@/lib/feedback";
 import {
   applyMove,
@@ -13,7 +13,7 @@ import {
   roundOf,
   scoreOf,
   startGame,
-  startInput
+  startInput,
 } from "@/lib/simon";
 
 export type SimonGame = {
@@ -63,7 +63,7 @@ export function useSimonGame(): SimonGame {
 
       const move = sequence[index];
       setLitMove(move);
-      playFlashFeedback(move);
+      playMoveFlashFeedback(move);
       index += 1;
 
       timer = setTimeout(() => {
@@ -92,11 +92,11 @@ export function useSimonGame(): SimonGame {
       if (next.phase === "over") {
         playGameOverFeedback();
       } else {
-        playTapFeedback(move);
+        playMovePressFeedback(move);
       }
       commit(next);
     },
-    [commit]
+    [commit],
   );
 
   return { phase, score, round: roundOf(state), litMove, pressMove };
